@@ -1,0 +1,62 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    def globalConfiguration = rootProject.ext
+
+    compileSdkVersion globalConfiguration["sdkVersion"]
+    buildToolsVersion globalConfiguration["buildToolsVersion"]
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+def retrofitVersion = "2.4.0"
+def okHttpVersion = "3.10.0"
+
+dependencies {
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
+
+    // retrofit2
+    api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    api "com.squareup.retrofit2:converter-scalars:${retrofitVersion}"
+    api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    api "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+
+    // okhttp
+    api "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    api "com.squareup.okhttp3:okhttp-urlconnection:${okHttpVersion}"
+
+    // gson
+    api "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+
+    // stetho
+    implementation "com.facebook.stetho:stetho:$rootProject.ext.stethoVersion"
+    implementation "com.facebook.stetho:stetho-okhttp3:$rootProject.ext.stethoVersion"
+    implementation "com.facebook.stetho:stetho-urlconnection:$rootProject.ext.stethoVersion"
+
+    // threetenabp
+    implementation "com.jakewharton.threetenabp:threetenabp:$rootProject.ext.threeTenAbpVersion"
+}
